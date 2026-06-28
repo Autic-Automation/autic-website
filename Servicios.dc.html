@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{ box-sizing:border-box; }
+  body{ margin:0; font-family:'Manrope',system-ui,sans-serif; background:#FBFBF8; color:#0F1C1A; -webkit-font-smoothing:antialiased; }
+  ::selection{ background:#2A66FF; color:#fff; }
+  @keyframes floaty{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-12px); } }
+  @keyframes blobMove{ 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(18px,-16px) scale(1.08); } }
+  @keyframes marquee{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  @keyframes pulseDot{ 0%,100%{ opacity:.35; transform:translateY(0); } 50%{ opacity:1; transform:translateY(-4px); } }
+  @keyframes flowDot{ 0%{ left:0; opacity:0; } 10%{ opacity:1; } 90%{ opacity:1; } 100%{ left:100%; opacity:0; } }
+  @keyframes spinSlow{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+</style>
+</helmet>
+<div ref="{{ setRoot }}" style="--accent:#2A66FF; min-height:100vh; overflow-x:hidden;">
+
+  <header style="position:sticky; top:0; z-index:50; backdrop-filter:saturate(140%) blur(14px); background:rgba(251,251,248,0.78); border-bottom:1px solid rgba(15,28,26,0.08);">
+    <nav style="max-width:1200px; margin:0 auto; padding:15px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px;">
+      <a href="Inicio.dc.html" style="display:flex; align-items:center; gap:11px; text-decoration:none; color:#0F1C1A;">
+        <img src="assets/autic-isotipo.png" alt="Autic" style="width:30px;height:30px;object-fit:contain;display:block;">
+        <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:21px; letter-spacing:-0.02em;">Autic</span>
+      </a>
+      <div style="display:flex; align-items:center; gap:30px;">
+        <div style="display:flex; align-items:center; gap:26px; font-weight:600; font-size:15px;">
+          <a href="Inicio.dc.html" style="text-decoration:none; color:#5C6B67;">Inicio</a>
+          <a href="Servicios.dc.html" style="text-decoration:none; color:#0F1C1A;">Servicios</a>
+          <a href="Contacto.dc.html" style="text-decoration:none; color:#5C6B67;">Contacto</a>
+        </div>
+        <a href="https://wa.me/573000000000" style="display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:#fff; text-decoration:none; font-weight:700; font-size:15px; padding:12px 22px; border-radius:999px; letter-spacing:0.02em; transition:transform .2s, filter .2s;" style-hover="transform:translateY(-2px); filter:brightness(1.05);">Agenda una reunión</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section style="position:relative; max-width:1100px; margin:0 auto; padding:80px 24px 50px; text-align:center; overflow:hidden;">
+    <div data-anim="blob" style="position:absolute; top:-60px; left:50%; transform:translateX(-50%); width:520px; height:340px; max-width:90vw; background:radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 70%); filter:blur(30px); z-index:0; animation:blobMove 12s ease-in-out infinite;"></div>
+    <div style="position:relative; z-index:2;">
+      <div data-reveal style="display:inline-flex; align-items:center; gap:9px; padding:7px 14px; border-radius:999px; background:#fff; border:1px solid rgba(15,28,26,0.12); font-weight:700; font-size:13px; letter-spacing:.02em; color:#1B3FB0;">
+        <span style="width:8px; height:8px; border-radius:50%; background:var(--accent);"></span> SERVICIOS
+      </div>
+      <h1 data-reveal data-delay="60" style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(38px,5.6vw,66px); line-height:1.04; letter-spacing:-0.03em; margin:22px auto 0; max-width:16ch;">Soluciones que se <span style="color:var(--accent);">conectan</span> entre sí</h1>
+      <p data-reveal data-delay="120" style="font-size:19px; line-height:1.6; color:#5C6B67; max-width:56ch; margin:20px auto 0; font-weight:500;">No vendemos piezas sueltas. Construimos un ecosistema donde cada solución alimenta a la siguiente para escalar tu operación.</p>
+    </div>
+  </section>
+
+  <!-- SERVICE 1: WhatsApp -->
+  <section style="max-width:1160px; margin:0 auto; padding:40px 24px; display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:48px; align-items:center;">
+    <div data-reveal>
+      <div style="display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:700; letter-spacing:.1em; color:var(--accent);"><span style="width:26px; height:1px; background:var(--accent);"></span> 01 · CONVERSACIONAL</div>
+      <h2 style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(27px,3.6vw,40px); letter-spacing:-0.025em; line-height:1.1; margin:14px 0 0;">Chatbots para WhatsApp</h2>
+      <p style="font-size:17px; color:#5C6B67; line-height:1.6; margin:14px 0 0; font-weight:500;">Conversaciones que venden y resuelven, sin que tu equipo levante un dedo. Atención inmediata, en el canal donde están tus clientes.</p>
+      <ul style="list-style:none; margin:22px 0 0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <li style="display:flex; gap:9px; font-size:14.5px; color:#36433f; font-weight:600;"><span style="color:var(--accent);">▹</span> Atención 24/7</li>
+        <li style="display:flex; gap:9px; font-size:14.5px; color:#36433f; font-weight:600;"><span style="color:var(--accent);">▹</span> Respuestas con IA</li>
+        <li style="display:flex; gap:9px; font-size:14.5px; color:#36433f; font-weight:600;"><span style="color:var(--accent);">▹</span> Integración con CRM</li>
+        <li style="display:flex; gap:9px; font-size:14.5px; color:#36433f; font-weight:600;"><span style="color:var(--accent);">▹</span> Disponibilidad total</li>
+      </ul>
+    </div>
+    <div data-reveal data-delay="120" style="display:flex; justify-content:center;">
+      <div style="width:320px; max-width:100%; background:#fff; border-radius:24px; box-shadow:0 26px 60px rgba(15,28,26,0.14); border:1px solid rgba(15,28,26,0.06); overflow:hidden;">
+        <div style="display:flex; align-items:center; gap:11px; padding:15px 18px; background:#0F1C1A;">
+          <span style="width:34px; height:34px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center;"><span style="width:12px; height:12px; border-radius:4px; background:#fff; transform:rotate(45deg);"></span></span>
+          <div><div style="color:#fff; font-weight:700; font-size:14px;">Autic Bot</div><div style="color:#9EB8FF; font-size:11px;">● en línea</div></div>
+        </div>
+        <div style="padding:16px; display:flex; flex-direction:column; gap:10px; background:#F4F6F4;">
+          <div style="align-self:flex-start; max-width:80%; background:#fff; padding:10px 13px; border-radius:4px 14px 14px 14px; font-size:13.5px; box-shadow:0 2px 6px rgba(15,28,26,0.06);">¿Cuánto cuesta el plan empresarial?</div>
+          <div style="align-self:flex-end; max-width:82%; background:color-mix(in srgb, var(--accent) 16%, #fff); padding:10px 13px; border-radius:14px 4px 14px 14px; font-size:13.5px; color:#18389E;">Te paso la cotización ahora mismo y, si quieres, agendo una demo 📅</div>
+          <div style="align-self:flex-start; display:flex; gap:5px; padding:10px 13px; background:#fff; border-radius:14px; width:fit-content; box-shadow:0 2px 6px rgba(15,28,26,0.06);">
+            <span data-anim="pulse" style="width:6px;height:6px;border-radius:50%;background:#9aa6a2;animation:pulseDot 1s infinite;"></span>
+            <span data-anim="pulse" style="width:6px;height:6px;border-radius:50%;background:#9aa6a2;animation:pulseDot 1s infinite .2s;"></span>
+            <span data-anim="pulse" style="width:6px;height:6px;border-radius:50%;background:#9aa6a2;animation:pulseDot 1s infinite .4s;"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICE 2: Agentes IA -->
+  <section style="max-width:1160px; margin:0 auto; padding:40px 24px; display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:48px; align-items:center;">
+    <div data-reveal data-delay="120" style="order:2; display:flex; justify-content:center;">
+      <div style="width:340px; max-width:100%; background:#0F1C1A; border-radius:22px; box-shadow:0 26px 60px rgba(15,28,26,0.2); padding:22px;">
+        <div style="display:flex; align-items:center; gap:9px; color:#fff; font-weight:700; font-size:14px; margin-bottom:16px;"><span style="width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent);"></span> Agente de IA · razonando</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:11px; padding:11px 13px; color:#cdd8d4; font-size:13px;"><span style="color:var(--accent);">✓</span> Analizando la solicitud del cliente</div>
+          <div style="display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:11px; padding:11px 13px; color:#cdd8d4; font-size:13px;"><span style="color:var(--accent);">✓</span> Consultando datos en el CRM</div>
+          <div style="display:flex; align-items:center; gap:10px; background:color-mix(in srgb, var(--accent) 20%, #0F1C1A); border:1px solid color-mix(in srgb, var(--accent) 40%, transparent); border-radius:11px; padding:11px 13px; color:#fff; font-size:13px;"><span data-anim="pulse" style="width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulseDot 1s infinite;"></span> Generando respuesta y siguiente acción…</div>
+        </div>
+      </div>
+    </div>
+    <div data-reveal style="order:1;">
+      <div style="display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:700; letter-spacing:.1em; color:var(--accent);"><span style="width:26px; height:1px; background:var(--accent);"></span> 02 · INTELIGENCIA</div>
+      <h2 style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(27px,3.6vw,40px); letter-spacing:-0.025em; line-height:1.1; margin:14px 0 0;">Agentes de IA</h2>
+      <p style="font-size:17px; color:#5C6B67; line-height:1.6; margin:14px 0 0; font-weight:500;">Asistentes que razonan, analizan y actúan dentro de tus procesos. No solo responden: toman decisiones y ejecutan tareas reales.</p>
+      <ul style="list-style:none; margin:22px 0 0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <li style="display:flex; gap:9px; font-size:14.5px; color:#36433f; font-weight:600;"><span style="color:var(--accent);">▹</span> IA conversacional avanzada</li>
+        <li style="display:flex; gap:9px; font-size:14.5px; color:#36433f; font-weight:600;"><span style="color:var(--accent);">▹</span> Asistentes empresariales</li>
+        <li style="display:flex; gap:9px; font-size:14.5px; color:#36433f; font-weight:600;"><span style="color:var(--accent);">▹</span> Análisis de datos</li>
+        <li style="display:flex; gap:9px; font-size:14.5px; color:#36433f; font-weight:600;"><span style="color:var(--accent);">▹</span> Apoyo en decisiones</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SERVICE 3: Automatización -->
+  <section style="max-width:1160px; margin:0 auto; padding:40px 24px; display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:48px; align-items:center;">
+    <div data-reveal>
+      <div style="display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:700; letter-spacing:.1em; color:var(--accent);"><span style="width:26px; height:1px; background:var(--accent);"></span> 03 · PROCESOS</div>
+      <h2 style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(27px,3.6vw,40px); letter-spacing:-0.025em; line-height:1.1; margin:14px 0 0;">Automatización de procesos</h2>
+      <p style="font-size:17px; color:#5C6B67; line-height:1.6; margin:14px 0 0; font-weight:500;">Eliminamos lo repetitivo y conectamos todos tus sistemas. Un formulario dispara una cadena que termina en tu CRM y tu facturación, sola.</p>
+      <ul style="list-style:none; margin:22px 0 0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <li style="display:flex; gap:9px; font-size:14.5px; color:#36433f; font-weight:600;"><span style="color:var(--accent);">▹</span> Adiós tareas manuales</li>
+        <li style="display:flex; gap:9px; font-size:14.5px; color:#36433f; font-weight:600;"><span style="color:var(--accent);">▹</span> Integración de sistemas</li>
+        <li style="display:flex; gap:9px; font-size:14.5px; color:#36433f; font-weight:600;"><span style="color:var(--accent);">▹</span> Financiera y DIAN</li>
+        <li style="display:flex; gap:9px; font-size:14.5px; color:#36433f; font-weight:600;"><span style="color:var(--accent);">▹</span> Gestión documental</li>
+      </ul>
+    </div>
+    <div data-reveal data-delay="120" style="display:flex; justify-content:center;">
+      <div style="width:100%; max-width:380px; background:#fff; border:1px solid rgba(15,28,26,0.08); border-radius:20px; box-shadow:0 22px 50px rgba(15,28,26,0.1); padding:26px 22px;">
+        <div style="display:flex; flex-direction:column; gap:18px;">
+          <div style="display:flex; align-items:center; gap:13px;"><span style="width:42px; height:42px; border-radius:11px; background:#F4F6F4; display:flex; align-items:center; justify-content:center; font-size:18px;">📝</span><div style="font-weight:700; font-size:14px;">Formulario recibido</div></div>
+          <div style="position:relative; height:2px; background:rgba(15,28,26,0.1); margin-left:21px; width:60%;"><span data-anim="flowDot" style="position:absolute; top:-3px; width:8px; height:8px; border-radius:50%; background:var(--accent); animation:flowDot 2.4s linear infinite;"></span></div>
+          <div style="display:flex; align-items:center; gap:13px;"><span style="width:42px; height:42px; border-radius:11px; background:var(--accent); display:flex; align-items:center; justify-content:center;"><span style="width:14px; height:14px; border-radius:4px; background:#fff; transform:rotate(45deg);"></span></span><div style="font-weight:700; font-size:14px;">Autic procesa con IA</div></div>
+          <div style="position:relative; height:2px; background:rgba(15,28,26,0.1); margin-left:21px; width:60%;"><span data-anim="flowDot" style="position:absolute; top:-3px; width:8px; height:8px; border-radius:50%; background:var(--accent); animation:flowDot 2.4s linear infinite .6s;"></span></div>
+          <div style="display:flex; align-items:center; gap:13px;"><span style="width:42px; height:42px; border-radius:11px; background:#F4F6F4; display:flex; align-items:center; justify-content:center; font-size:18px;">📊</span><div style="font-weight:700; font-size:14px;">CRM + factura DIAN actualizados</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICE 4: Desarrollo -->
+  <section style="max-width:1160px; margin:0 auto; padding:40px 24px 56px; display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:48px; align-items:center;">
+    <div data-reveal data-delay="120" style="order:2; display:flex; justify-content:center;">
+      <div style="width:100%; max-width:400px; background:#fff; border:1px solid rgba(15,28,26,0.08); border-radius:16px; box-shadow:0 22px 50px rgba(15,28,26,0.12); overflow:hidden;">
+        <div style="display:flex; align-items:center; gap:7px; padding:13px 16px; border-bottom:1px solid rgba(15,28,26,0.07); background:#F4F6F4;"><span style="width:11px;height:11px;border-radius:50%;background:#E5897F;"></span><span style="width:11px;height:11px;border-radius:50%;background:#E7C66B;"></span><span style="width:11px;height:11px;border-radius:50%;background:#9EB8FF;"></span><span style="margin-left:10px; font-size:12px; color:#9aa6a2; font-weight:600;">app.tuempresa.com</span></div>
+        <div style="padding:22px;">
+          <div style="height:26px; width:55%; border-radius:7px; background:color-mix(in srgb, var(--accent) 20%, #fff); margin-bottom:16px;"></div>
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:16px;">
+            <div style="height:64px; border-radius:10px; background:#F4F6F4;"></div>
+            <div style="height:64px; border-radius:10px; background:#F4F6F4;"></div>
+            <div style="height:64px; border-radius:10px; background:var(--accent);"></div>
+          </div>
+          <div style="height:12px; width:100%; border-radius:6px; background:#EDEFEC; margin-bottom:9px;"></div>
+          <div style="height:12px; width:80%; border-radius:6px; background:#EDEFEC; margin-bottom:9px;"></div>
+          <div style="height:12px; width:90%; border-radius:6px; background:#EDEFEC;"></div>
+        </div>
+      </div>
+    </div>
+    <div data-reveal style="order:1;">
+      <div style="display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:700; letter-spacing:.1em; color:var(--accent);"><span style="width:26px; height:1px; background:var(--accent);"></span> 04 · PRODUCTO</div>
+      <h2 style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(27px,3.6vw,40px); letter-spacing:-0.025em; line-height:1.1; margin:14px 0 0;">Desarrollo Web & Software</h2>
+      <p style="font-size:17px; color:#5C6B67; line-height:1.6; margin:14px 0 0; font-weight:500;">Plataformas y productos digitales construidos a la medida de tu operación. Nada de plantillas: exactamente lo que tu negocio necesita.</p>
+      <ul style="list-style:none; margin:22px 0 0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <li style="display:flex; gap:9px; font-size:14.5px; color:#36433f; font-weight:600;"><span style="color:var(--accent);">▹</span> Páginas corporativas</li>
+        <li style="display:flex; gap:9px; font-size:14.5px; color:#36433f; font-weight:600;"><span style="color:var(--accent);">▹</span> Plataformas y CMS</li>
+        <li style="display:flex; gap:9px; font-size:14.5px; color:#36433f; font-weight:600;"><span style="color:var(--accent);">▹</span> Software empresarial</li>
+        <li style="display:flex; gap:9px; font-size:14.5px; color:#36433f; font-weight:600;"><span style="color:var(--accent);">▹</span> 100% personalizado</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="max-width:1200px; margin:0 auto; padding:64px 24px 80px;">
+    <div data-reveal style="position:relative; overflow:hidden; background:color-mix(in srgb, var(--accent) 12%, #fff); border:1px solid color-mix(in srgb, var(--accent) 30%, transparent); border-radius:28px; padding:clamp(36px,5vw,60px); text-align:center;">
+      <h2 style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(28px,4.2vw,46px); letter-spacing:-0.03em; line-height:1.08; margin:0 auto; max-width:20ch;">¿Cuál de estos procesos te quita más tiempo hoy?</h2>
+      <p style="font-size:18px; color:#3c5853; line-height:1.6; margin:16px auto 0; max-width:48ch; font-weight:500;">Cuéntanos y te mostramos cómo automatizarlo en una llamada de 30 minutos.</p>
+      <a href="https://wa.me/573000000000" style="display:inline-flex; align-items:center; gap:9px; margin-top:28px; background:var(--accent); color:#fff; text-decoration:none; font-weight:700; font-size:16px; padding:16px 30px; border-radius:999px; letter-spacing:0.02em; box-shadow:inset 0 1px 0 rgba(255,255,255,0.28), 0 16px 40px color-mix(in srgb, var(--accent) 40%, transparent); transition:transform .2s, filter .2s;" style-hover="transform:translateY(-2px); filter:brightness(1.06);">Agenda una reunión →</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:#0a1412; color:#cdd8d4;">
+    <div style="max-width:1200px; margin:0 auto; padding:56px 24px 30px; display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:36px;">
+      <div style="max-width:280px;">
+        <div style="display:flex; align-items:center; gap:11px; margin-bottom:14px;">
+          <img src="assets/autic-isotipo.png" alt="Autic" style="width:30px;height:30px;object-fit:contain;display:block;filter:brightness(0) invert(1);">
+          <span style="font-family:'Space Grotesk'; font-weight:700; font-size:20px; color:#fff;">Autic</span>
+        </div>
+        <p style="font-size:14px; line-height:1.6; color:#8c9c97; margin:0;">Automatización inteligente. Construimos el futuro digital de tu empresa.</p>
+      </div>
+      <div>
+        <p style="font-size:12px; font-weight:700; letter-spacing:.12em; color:#6b7c77; margin:0 0 14px;">ENLACES</p>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14px;">
+          <a href="Inicio.dc.html" style="color:#cdd8d4; text-decoration:none;">Inicio</a>
+          <a href="Servicios.dc.html" style="color:#cdd8d4; text-decoration:none;">Servicios</a>
+          <a href="Contacto.dc.html" style="color:#cdd8d4; text-decoration:none;">Contacto</a>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:12px; font-weight:700; letter-spacing:.12em; color:#6b7c77; margin:0 0 14px;">CONTACTO</p>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14px;">
+          <a href="mailto:contacto@autic.com.co" style="color:#cdd8d4; text-decoration:none;">contacto@autic.com.co</a>
+          <a href="https://wa.me/573000000000" style="color:#cdd8d4; text-decoration:none;">WhatsApp</a>
+          <span style="color:#8c9c97;">Medellín, Colombia</span>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:12px; font-weight:700; letter-spacing:.12em; color:#6b7c77; margin:0 0 14px;">EMPECEMOS</p>
+        <a href="https://wa.me/573000000000" style="display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:#fff; text-decoration:none; font-weight:700; font-size:14px; padding:12px 22px; border-radius:999px; letter-spacing:0.02em;">Agenda una reunión</a>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="max-width:1200px; margin:0 auto; padding:20px 24px; font-size:13px; color:#6b7c77;">© {{ year }} Autic. Todos los derechos reservados. Hecho con tecnología, en Medellín.</div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:[&quot;#2A66FF&quot;,&quot;#7c5cff&quot;,&quot;#3b82f6&quot;,&quot;#ff7847&quot;,&quot;#c8ff4d&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Marca&quot;},&quot;reduceMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Movimiento&quot;}}">
+class Component extends DCLogic {
+  setRoot = (el) => { if (el) { this.root = el; this.applyAccent(); } };
+
+  accentColor() {
+    const a = this.props.accent;
+    if (Array.isArray(a)) return a[0] || '#2A66FF';
+    return a || '#2A66FF';
+  }
+  applyAccent() {
+    if (this.root) this.root.style.setProperty('--accent', this.accentColor());
+  }
+
+  componentDidMount() {
+    this.applyAccent();
+    try { this.initMotion(); } catch (e) { this.revealAll(); }
+  }
+  componentDidUpdate() { this.applyAccent(); }
+
+  revealAll() {
+    if (!this.root) return;
+    this.root.querySelectorAll('[data-reveal]').forEach((el) => { el.style.opacity = '1'; el.style.transform = 'none'; });
+  }
+
+  initMotion() {
+    const root = this.root;
+    if (!root) return;
+    const reduce = !!this.props.reduceMotion;
+    const reveals = root.querySelectorAll('[data-reveal]');
+    if (reduce) {
+      reveals.forEach((el) => { el.style.opacity = '1'; el.style.transform = 'none'; });
+      root.querySelectorAll('[data-anim]').forEach((el) => { el.style.animation = 'none'; });
+      return;
+    }
+    reveals.forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(26px)';
+      el.style.transition = 'opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1)';
+    });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          const el = e.target;
+          const d = parseInt(el.dataset.delay || '0', 10);
+          el.style.transitionDelay = d + 'ms';
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    reveals.forEach((el) => io.observe(el));
+    clearTimeout(this._safe);
+    this._safe = setTimeout(() => this.revealAll(), 2400);
+  }
+
+  renderVals() {
+    return { year: 2026, setRoot: this.setRoot };
+  }
+}
+</script>
+</body>
+</html>

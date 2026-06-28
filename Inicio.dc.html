@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{ box-sizing:border-box; }
+  body{ margin:0; font-family:'Manrope',system-ui,sans-serif; background:var(--bg,#FBFBF8); color:var(--tx,#0F1C1A); -webkit-font-smoothing:antialiased; }
+  ::selection{ background:#2A66FF; color:#fff; }
+  html{ --bg:#FBFBF8; --tx:#0F1C1A; --mut:#5C6B67; --mut2:#36433f; --surf:#ffffff; --surf2:#F4F6F4; --bd:rgba(15,28,26,0.08); --bd2:rgba(15,28,26,0.14); --nav:rgba(251,251,248,0.78); }
+  html[data-theme="dark"]{ --bg:#0b1311; --tx:#E8F0ED; --mut:#90a09b; --mut2:#aebbb6; --surf:#13201c; --surf2:#0f1a17; --bd:rgba(255,255,255,0.10); --bd2:rgba(255,255,255,0.18); --nav:rgba(11,19,17,0.84); }
+  html[data-theme="dark"] header img{ filter:brightness(0) invert(1); }
+  html{ color-scheme:light; } html[data-theme="dark"]{ color-scheme:dark; }
+  @keyframes floaty{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-14px); } }
+  @keyframes floatySlow{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-22px); } }
+  @keyframes blobMove{ 0%,100%{ transform:translate(0,0) scale(1); border-radius:46% 54% 60% 40%/52% 44% 56% 48%; } 33%{ transform:translate(20px,-18px) scale(1.08); border-radius:60% 40% 44% 56%/40% 60% 40% 60%; } 66%{ transform:translate(-16px,12px) scale(0.96); border-radius:40% 60% 56% 44%/60% 40% 60% 40%; } }
+  @keyframes marquee{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  @keyframes pulseDot{ 0%,100%{ opacity:.35; transform:translateY(0); } 50%{ opacity:1; transform:translateY(-4px); } }
+  @keyframes ringPulse{ 0%{ transform:scale(.6); opacity:.55; } 100%{ transform:scale(1.6); opacity:0; } }
+  @keyframes spinSlow{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+  @keyframes shimmer{ 0%{ background-position:-200% 0; } 100%{ background-position:200% 0; } }
+  @keyframes barGrow{ 0%{ transform:scaleY(.2); } 100%{ transform:scaleY(1); } }
+  @keyframes eyeGlow{ 0%,100%{ opacity:.6; transform:scale(.9); } 50%{ opacity:1; transform:scale(1.06); } }
+</style>
+</helmet>
+<div ref="{{ setRoot }}" style="--accent:#2A66FF; min-height:100vh; overflow-x:hidden;">
+
+  <header style="position:sticky; top:0; z-index:50; backdrop-filter:saturate(140%) blur(14px); background:var(--nav,rgba(251,251,248,0.78)); border-bottom:1px solid var(--bd,rgba(15,28,26,0.08));">
+    <nav style="max-width:1200px; margin:0 auto; padding:15px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px;">
+      <a href="Inicio.dc.html" style="display:flex; align-items:center; gap:11px; text-decoration:none; color:var(--tx,#0F1C1A);">
+        <img src="assets/autic-isotipo.png" alt="Autic" style="width:30px;height:30px;object-fit:contain;display:block;">
+        <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:21px; letter-spacing:-0.02em;">Autic</span>
+      </a>
+      <div style="display:flex; align-items:center; gap:30px;">
+        <div style="display:flex; align-items:center; gap:26px; font-weight:600; font-size:15px;">
+          <a href="Inicio.dc.html" style="text-decoration:none; color:var(--tx,#0F1C1A);">Inicio</a>
+          <a href="Servicios.dc.html" style="text-decoration:none; color:var(--mut,#5C6B67);">Servicios</a>
+          <a href="Contacto.dc.html" style="text-decoration:none; color:var(--mut,#5C6B67);">Contacto</a>
+        </div>
+        <button onClick="{{ toggleTheme }}" aria-label="Cambiar tema" style="width:40px; height:40px; flex-shrink:0; border-radius:999px; border:1px solid var(--bd2,rgba(15,28,26,0.14)); background:var(--surf,#fff); color:var(--accent,#2A66FF); cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1; transition:transform .2s, border-color .2s;" style-hover="transform:translateY(-2px); border-color:var(--accent,#2A66FF);"><sc-if value="{{ notDark }}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></sc-if><sc-if value="{{ dark }}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></svg></sc-if></button>
+        <a href="https://wa.me/573000000000" style="display:inline-flex; align-items:center; gap:8px; background:var(--accent,#2A66FF); color:#fff; text-decoration:none; font-weight:700; font-size:15px; padding:12px 22px; border-radius:999px; letter-spacing:0.02em; box-shadow:0 8px 22px color-mix(in srgb, var(--accent,#2A66FF) 34%, transparent); transition:transform .2s, filter .2s;" style-hover="transform:translateY(-2px); filter:brightness(1.05);">Agenda una reunión</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ===================== HERO A ===================== -->
+  <sc-if value="{{ heroA }}" hint-placeholder-val="{{ true }}">
+  <section data-hero="1" data-screen-label="Hero A" style="position:relative; max-width:1200px; margin:0 auto; padding:96px 24px 72px; display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:56px; align-items:center;">
+    <div data-par="-18" style="position:absolute; top:-40px; left:-80px; width:420px; height:420px; background:color-mix(in srgb, var(--accent,#2A66FF) 26%, transparent); filter:blur(60px); z-index:0;" data-anim="blob" ></div>
+    <div style="position:relative; z-index:2;">
+      <h1 data-reveal data-delay="60" style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(40px,5.6vw,68px); line-height:1.03; letter-spacing:-0.03em; margin:22px 0 0;">
+        Automatización<br>inteligente que <span style="color:var(--accent,#2A66FF);">trabaja por ti</span>.
+      </h1>
+      <p data-reveal data-delay="120" style="font-size:19px; line-height:1.6; color:var(--mut,#5C6B67); max-width:30ch; margin:22px 0 0; font-weight:500;">
+        Chatbots de WhatsApp, agentes de IA y software a medida. Construimos el futuro digital de tu empresa, desde Medellín para el mundo.
+      </p>
+      <div data-reveal data-delay="180" style="display:flex; flex-wrap:wrap; gap:14px; margin-top:30px;">
+        <a href="https://wa.me/573000000000" style="display:inline-flex; align-items:center; gap:9px; background:var(--accent,#2A66FF); color:#fff; text-decoration:none; font-weight:700; font-size:16px; padding:15px 26px; border-radius:999px; letter-spacing:0.02em; box-shadow:inset 0 1px 0 rgba(255,255,255,0.28), 0 12px 30px color-mix(in srgb, var(--accent,#2A66FF) 36%, transparent); transition:transform .2s, filter .2s;" style-hover="transform:translateY(-2px); filter:brightness(1.05);">Agenda una reunión →</a>
+        <a href="Servicios.dc.html" style="display:inline-flex; align-items:center; gap:9px; background:var(--surf,var(--surf,#fff)); color:var(--tx,#0F1C1A); text-decoration:none; font-weight:700; font-size:16px; padding:15px 26px; border-radius:999px; letter-spacing:0.02em; border:1.5px solid var(--bd2,rgba(15,28,26,0.14)); transition:transform .2s, border-color .2s;" style-hover="transform:translateY(-2px); border-color:var(--accent,#2A66FF);">Conoce los servicios</a>
+      </div>
+      <div data-reveal data-delay="240" style="display:flex; align-items:center; gap:14px; margin-top:34px;">
+        <div style="display:flex;">
+          <span style="width:34px; height:34px; border-radius:50%; background:#E4D9C8; border:2px solid var(--bg,#FBFBF8);"></span>
+          <span style="width:34px; height:34px; border-radius:50%; background:#C8D8D2; border:2px solid var(--bg,#FBFBF8); margin-left:-11px;"></span>
+          <span style="width:34px; height:34px; border-radius:50%; background:#D2C8E0; border:2px solid var(--bg,#FBFBF8); margin-left:-11px;"></span>
+          <span style="width:34px; height:34px; border-radius:50%; background:var(--accent,#2A66FF); border:2px solid var(--bg,#FBFBF8); margin-left:-11px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:12px;">+</span>
+        </div>
+        <div style="font-size:14px; color:var(--mut,#5C6B67); font-weight:600;"><span style="color:var(--tx,#0F1C1A); font-weight:800;">+50 procesos</span> automatizados · <span style="color:var(--accent,#2A66FF);">★ 4.9</span></div>
+      </div>
+    </div>
+
+    <div data-reveal data-delay="160" style="position:relative; z-index:2; display:flex; justify-content:center;">
+      <div data-par="10" style="position:relative; width:330px; max-width:100%;">
+        <div style="background:#ECE5DD; border-radius:22px; box-shadow:0 30px 70px rgba(15,28,26,0.18); border:1px solid var(--bd,rgba(15,28,26,0.08)); overflow:hidden;">
+          <div style="display:flex; align-items:center; gap:10px; padding:11px 13px; background:#075E54;">
+            <span style="color:#cfe9e3; font-size:18px; line-height:1;">‹</span>
+            <span style="width:36px; height:36px; border-radius:50%; background:#0b7d6e; display:flex; align-items:center; justify-content:center;"><img src="assets/autic-isotipo.png" alt="" style="width:20px;height:20px;object-fit:contain;filter:brightness(0) invert(1);"></span>
+            <div style="line-height:1.25; flex:1;">
+              <div style="color:#fff; font-weight:700; font-size:14.5px;">Asistente Autic</div>
+              <div style="color:#a7d3cb; font-size:11.5px; display:flex; align-items:center; gap:5px;"><span style="width:6px;height:6px;border-radius:50%;background:#5ff0c0;display:inline-block;"></span> en línea</div>
+            </div>
+            <span style="color:#bfe0d9; font-size:16px;">⋮</span>
+          </div>
+          <div style="padding:14px 11px 16px; display:flex; flex-direction:column; gap:7px; background:#ECE5DD;">
+            <div style="align-self:flex-start; max-width:84%; background:var(--surf,var(--surf,#fff))fff; padding:6px 9px 5px; border-radius:0 9px 9px 9px; box-shadow:0 1px 1px rgba(15,28,26,0.13);">
+              <div style="font-size:13px; line-height:1.4; color:#101a17;">Hola, vi su publicación 😍 ¿Tienen el bolso Aurora en negro?</div>
+              <div style="text-align:right; font-size:10px; color:#9aa7a2; margin-top:1px;">10:23</div>
+            </div>
+            <div style="align-self:flex-end; max-width:86%; background:#DCF8C6; padding:6px 9px 5px; border-radius:9px 0 9px 9px; box-shadow:0 1px 1px rgba(15,28,26,0.13);">
+              <div style="font-size:13px; line-height:1.4; color:#101a17;">¡Hola! 👋 Sí, está disponible en negro. Cuesta <b>$189.000</b> con envío gratis a todo el país.</div>
+              <div style="display:flex; align-items:center; justify-content:flex-end; gap:3px; margin-top:1px;"><span style="font-size:10px; color:#7a9a8e;">10:23</span><span style="font-size:11px; color:#34B7F1; letter-spacing:-3px; font-weight:700;">✓✓</span></div>
+            </div>
+            <div style="align-self:flex-start; max-width:78%; background:var(--surf,var(--surf,#fff))fff; padding:6px 9px 5px; border-radius:0 9px 9px 9px; box-shadow:0 1px 1px rgba(15,28,26,0.13);">
+              <div style="font-size:13px; line-height:1.4; color:#101a17;">Perfecto 🙌 ¿Cómo hago el pedido?</div>
+              <div style="text-align:right; font-size:10px; color:#9aa7a2; margin-top:1px;">10:24</div>
+            </div>
+            <div style="align-self:flex-end; max-width:86%; background:#DCF8C6; padding:6px 9px 5px; border-radius:9px 0 9px 9px; box-shadow:0 1px 1px rgba(15,28,26,0.13);">
+              <div style="font-size:13px; line-height:1.4; color:#101a17;">Te lo aparté ✅ Te envío el link de pago y coordinamos el envío. ¿Confirmas? 📦</div>
+              <div style="display:flex; align-items:center; justify-content:flex-end; gap:3px; margin-top:1px;"><span style="font-size:10px; color:#7a9a8e;">10:24</span><span style="font-size:11px; color:#34B7F1; letter-spacing:-3px; font-weight:700;">✓✓</span></div>
+            </div>
+            <div style="align-self:flex-start; display:flex; gap:4px; padding:9px 12px; background:var(--surf,var(--surf,#fff))fff; border-radius:0 9px 9px 9px; width:fit-content; box-shadow:0 1px 1px rgba(15,28,26,0.13);">
+              <span data-anim="pulse" style="width:6px;height:6px;border-radius:50%;background:#9aa6a2;animation:pulseDot 1s infinite;"></span>
+              <span data-anim="pulse" style="width:6px;height:6px;border-radius:50%;background:#9aa6a2;animation:pulseDot 1s infinite .2s;"></span>
+              <span data-anim="pulse" style="width:6px;height:6px;border-radius:50%;background:#9aa6a2;animation:pulseDot 1s infinite .4s;"></span>
+            </div>
+          </div>
+        </div>
+        <div data-anim="float" style="position:absolute; top:-26px; right:-34px; background:var(--surf,var(--surf,#fff)); padding:11px 15px; border-radius:14px; box-shadow:0 16px 34px rgba(15,28,26,0.14); display:flex; align-items:center; gap:9px; font-weight:700; font-size:13px; animation:floaty 4s ease-in-out infinite;">
+          <span style="width:24px;height:24px;border-radius:7px;background:color-mix(in srgb, var(--accent,#2A66FF) 16%,var(--surf,#fff));display:flex;align-items:center;justify-content:center;color:var(--accent,#2A66FF);">✓</span> Venta cerrada
+        </div>
+        <div data-anim="float" style="position:absolute; bottom:-40px; left:-24px; background:var(--surf,var(--surf,#fff)); padding:11px 15px; border-radius:14px; box-shadow:0 16px 34px rgba(15,28,26,0.14); display:flex; align-items:center; gap:9px; font-weight:700; font-size:13px; animation:floatySlow 5s ease-in-out infinite .6s;">
+          <span style="width:24px;height:24px;border-radius:7px;background:color-mix(in srgb, var(--accent,#2A66FF) 16%,var(--surf,#fff));display:flex;align-items:center;justify-content:center;color:var(--accent,#2A66FF);">↗</span> Pago recibido
+        </div>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- ===================== HERO B ===================== -->
+  <sc-if value="{{ heroB }}" hint-placeholder-val="{{ false }}">
+  <section data-hero="1" data-screen-label="Hero B" style="position:relative; padding:104px 24px 64px; text-align:center; overflow:hidden;">
+    <div data-anim="blob" style="position:absolute; top:30px; left:50%; transform:translateX(-50%); width:560px; height:420px; max-width:90vw; background:radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--accent,#2A66FF) 36%, transparent), transparent 68%); filter:blur(30px); z-index:0; animation:blobMove 12s ease-in-out infinite;"></div>
+    <div style="position:relative; z-index:2; max-width:880px; margin:0 auto;">
+      <div data-reveal style="display:inline-flex; align-items:center; gap:9px; padding:7px 14px; border-radius:999px; background:var(--surf,var(--surf,#fff)); border:1px solid var(--bd2,rgba(15,28,26,0.14)); font-weight:700; font-size:13px; letter-spacing:.02em; color:var(--accent,#2A66FF); box-shadow:0 6px 18px rgba(15,28,26,0.05);">
+        <span style="width:8px; height:8px; border-radius:50%; background:var(--accent,#2A66FF);"></span>
+        DESDE MEDELLÍN PARA EL MUNDO
+      </div>
+      <h1 data-reveal data-delay="60" style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(42px,7vw,82px); line-height:1.02; letter-spacing:-0.035em; margin:24px 0 0;">
+        El futuro digital de tu empresa, <span style="color:var(--accent,#2A66FF);">automatizado</span>.
+      </h1>
+      <p data-reveal data-delay="120" style="font-size:20px; line-height:1.6; color:var(--mut,#5C6B67); max-width:56ch; margin:24px auto 0; font-weight:500;">
+        Conectamos chatbots de WhatsApp, agentes de IA y software a medida en un solo ecosistema inteligente que escala con tu negocio.
+      </p>
+      <div data-reveal data-delay="180" style="display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:32px;">
+        <a href="https://wa.me/573000000000" style="display:inline-flex; align-items:center; gap:9px; background:var(--accent,#2A66FF); color:#fff; text-decoration:none; font-weight:700; font-size:16px; padding:15px 28px; border-radius:999px; letter-spacing:0.02em; box-shadow:inset 0 1px 0 rgba(255,255,255,0.28), 0 12px 30px color-mix(in srgb, var(--accent,#2A66FF) 36%, transparent); transition:transform .2s, filter .2s;" style-hover="transform:translateY(-2px); filter:brightness(1.05);">Agenda una reunión →</a>
+        <a href="Servicios.dc.html" style="display:inline-flex; align-items:center; gap:9px; background:var(--surf,var(--surf,#fff)); color:var(--tx,#0F1C1A); text-decoration:none; font-weight:700; font-size:16px; padding:15px 28px; border-radius:999px; letter-spacing:0.02em; border:1.5px solid var(--bd2,rgba(15,28,26,0.14)); transition:transform .2s, border-color .2s;" style-hover="transform:translateY(-2px); border-color:var(--accent,#2A66FF);">Conoce los servicios</a>
+      </div>
+    </div>
+    <div data-reveal data-delay="240" style="position:relative; z-index:2; max-width:920px; margin:54px auto 0;">
+      <div style="background:var(--surf,var(--surf,#fff)); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:22px; box-shadow:0 34px 80px rgba(15,28,26,0.16); padding:18px; display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px;">
+        <div style="grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; padding:6px 8px 12px; border-bottom:1px solid var(--bd,rgba(15,28,26,0.08));">
+          <div style="display:flex; gap:7px;"><span style="width:11px;height:11px;border-radius:50%;background:#E5897F;"></span><span style="width:11px;height:11px;border-radius:50%;background:#E7C66B;"></span><span style="width:11px;height:11px;border-radius:50%;background:#9EB8FF;"></span></div>
+          <div style="font-weight:700; font-size:13px; color:var(--mut,#5C6B67);">Panel Autic · automatizaciones activas</div>
+        </div>
+        <div style="background:var(--surf2,#F4F6F4); border-radius:14px; padding:16px; text-align:left;">
+          <div style="font-size:12px; color:var(--mut,#5C6B67); font-weight:700;">CONVERSACIONES</div>
+          <div data-count="1284" data-prefix="" style="font-family:'Space Grotesk'; font-size:30px; font-weight:700; margin-top:6px;">1.284</div>
+        </div>
+        <div style="background:var(--surf2,#F4F6F4); border-radius:14px; padding:16px; text-align:left;">
+          <div style="font-size:12px; color:var(--mut,#5C6B67); font-weight:700;">CITAS AGENDADAS</div>
+          <div data-count="312" style="font-family:'Space Grotesk'; font-size:30px; font-weight:700; margin-top:6px;">312</div>
+        </div>
+        <div style="background:#0F1C1A; border-radius:14px; padding:16px; text-align:left; display:flex; flex-direction:column; justify-content:flex-end; gap:8px;">
+          <div style="display:flex; align-items:flex-end; gap:6px; height:46px;">
+            <span data-anim="bar" style="flex:1; background:var(--accent,#2A66FF); border-radius:3px; height:40%; transform-origin:bottom; animation:barGrow .9s ease both .1s;"></span>
+            <span data-anim="bar" style="flex:1; background:var(--accent,#2A66FF); border-radius:3px; height:65%; transform-origin:bottom; animation:barGrow .9s ease both .2s;"></span>
+            <span data-anim="bar" style="flex:1; background:var(--accent,#2A66FF); border-radius:3px; height:50%; transform-origin:bottom; animation:barGrow .9s ease both .3s;"></span>
+            <span data-anim="bar" style="flex:1; background:#9EB8FF; border-radius:3px; height:88%; transform-origin:bottom; animation:barGrow .9s ease both .4s;"></span>
+            <span data-anim="bar" style="flex:1; background:#9EB8FF; border-radius:3px; height:72%; transform-origin:bottom; animation:barGrow .9s ease both .5s;"></span>
+          </div>
+          <div style="color:#9EB8FF; font-size:12px; font-weight:700;">+38% este mes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- ===================== LOGOS ===================== -->
+  <section style="padding:26px 0 46px;">
+    <p style="text-align:center; font-size:13px; font-weight:700; letter-spacing:.14em; color:#9aa6a2; margin:0 0 22px;">EMPRESAS QUE CONFÍAN EN AUTIC</p>
+    <div style="position:relative; overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent); mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);">
+      <div data-anim="marquee" style="display:flex; width:max-content; animation:marquee 48s linear infinite; align-items:center;">
+        <div style="display:flex; gap:64px; align-items:center; padding-right:64px;">
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Nexora</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Quantia</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Veltra</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Móvil+</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Andina</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Solvex</span>
+            <img src="assets/cliente-asados-dona-rosa.avif" alt="Asados Doña Rosa" style="height:128px; width:auto; display:block; object-fit:contain;">
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Nexora</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Quantia</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Veltra</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Móvil+</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Andina</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Solvex</span>
+            <img src="assets/cliente-asados-dona-rosa.avif" alt="Asados Doña Rosa" style="height:128px; width:auto; display:block; object-fit:contain;">
+        </div>
+        <div style="display:flex; gap:64px; align-items:center; padding-right:64px;">
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Nexora</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Quantia</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Veltra</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Móvil+</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Andina</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Solvex</span>
+            <img src="assets/cliente-asados-dona-rosa.avif" alt="Asados Doña Rosa" style="height:128px; width:auto; display:block; object-fit:contain;">
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Nexora</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Quantia</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Veltra</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Móvil+</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Andina</span>
+            <span style="font-family:'Space Grotesk'; font-weight:700; font-size:26px; color:#b4bdb9;">Solvex</span>
+            <img src="assets/cliente-asados-dona-rosa.avif" alt="Asados Doña Rosa" style="height:128px; width:auto; display:block; object-fit:contain;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SERVICIOS ===================== -->
+  <section id="servicios" style="max-width:1200px; margin:0 auto; padding:64px 24px;">
+    <div data-reveal style="max-width:640px;">
+      <p style="font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--accent,#2A66FF); margin:0;">QUÉ HACEMOS</p>
+      <h2 style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(30px,4.2vw,46px); letter-spacing:-0.025em; line-height:1.08; margin:14px 0 0;">Tecnología que trabaja por ti</h2>
+      <p style="font-size:18px; color:var(--mut,#5C6B67); line-height:1.6; margin:16px 0 0; font-weight:500;">Cada solución se conecta con la siguiente. Un ecosistema inteligente diseñado para escalar con tu negocio.</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:20px; margin-top:42px;">
+
+      <div data-reveal data-delay="0" style="--accent:#1FAE54; background:var(--surf,var(--surf,#fff)); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:20px; padding:26px; transition:transform .3s, box-shadow .3s, border-color .3s;" style-hover="transform:translateY(-6px); box-shadow:0 24px 50px rgba(15,28,26,0.12); border-color:color-mix(in srgb, var(--accent,#2A66FF) 40%, transparent);">
+        <div style="width:46px; height:46px; border-radius:13px; background:color-mix(in srgb, var(--accent,#2A66FF) 14%, var(--surf,var(--surf,#fff))); display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent,#2A66FF)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-9 8.5 9.06 9.06 0 0 1-3.5-.7L3 21l1.7-5.5A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5Z"/></svg>
+        </div>
+        <h3 style="font-family:'Space Grotesk'; font-weight:700; font-size:20px; margin:0 0 8px; letter-spacing:-0.01em;">Chatbots para WhatsApp</h3>
+        <p style="color:var(--mut,#5C6B67); font-size:14.5px; line-height:1.55; margin:0 0 16px;">Conversaciones que venden y resuelven, sin que tu equipo levante un dedo.</p>
+        <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px;">
+          <li style="display:flex; gap:9px; font-size:14px; color:var(--mut2,#36433f); font-weight:600;"><span style="color:var(--accent,#2A66FF);">▹</span> Atención automática 24/7</li>
+          <li style="display:flex; gap:9px; font-size:14px; color:var(--mut2,#36433f); font-weight:600;"><span style="color:var(--accent,#2A66FF);">▹</span> Respuestas inteligentes con IA</li>
+          <li style="display:flex; gap:9px; font-size:14px; color:var(--mut2,#36433f); font-weight:600;"><span style="color:var(--accent,#2A66FF);">▹</span> Integración con tu CRM</li>
+          <li style="display:flex; gap:9px; font-size:14px; color:var(--mut2,#36433f); font-weight:600;"><span style="color:var(--accent,#2A66FF);">▹</span> Disponibilidad total</li>
+        </ul>
+      </div>
+
+      <div data-reveal data-delay="80" style="--accent:#8B5CF6; background:var(--surf,var(--surf,#fff)); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:20px; padding:26px; transition:transform .3s, box-shadow .3s, border-color .3s;" style-hover="transform:translateY(-6px); box-shadow:0 24px 50px rgba(15,28,26,0.12); border-color:color-mix(in srgb, var(--accent,#2A66FF) 40%, transparent);">
+        <div style="width:46px; height:46px; border-radius:13px; background:color-mix(in srgb, var(--accent,#2A66FF) 14%, var(--surf,var(--surf,#fff))); display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent,#2A66FF)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 8V4"/><circle cx="12" cy="3" r="1.4"/><path d="M9.5 13h.01M14.5 13h.01"/><path d="M3 13v2M21 13v2"/></svg>
+        </div>
+        <h3 style="font-family:'Space Grotesk'; font-weight:700; font-size:20px; margin:0 0 8px; letter-spacing:-0.01em;">Agentes de IA</h3>
+        <p style="color:var(--mut,#5C6B67); font-size:14.5px; line-height:1.55; margin:0 0 16px;">Asistentes que razonan, analizan y actúan dentro de tus procesos.</p>
+        <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px;">
+          <li style="display:flex; gap:9px; font-size:14px; color:var(--mut2,#36433f); font-weight:600;"><span style="color:var(--accent,#2A66FF);">▹</span> IA conversacional avanzada</li>
+          <li style="display:flex; gap:9px; font-size:14px; color:var(--mut2,#36433f); font-weight:600;"><span style="color:var(--accent,#2A66FF);">▹</span> Asistentes empresariales</li>
+          <li style="display:flex; gap:9px; font-size:14px; color:var(--mut2,#36433f); font-weight:600;"><span style="color:var(--accent,#2A66FF);">▹</span> Análisis inteligente de datos</li>
+          <li style="display:flex; gap:9px; font-size:14px; color:var(--mut2,#36433f); font-weight:600;"><span style="color:var(--accent,#2A66FF);">▹</span> Apoyo en la toma de decisiones</li>
+        </ul>
+      </div>
+
+      <div data-reveal data-delay="160" style="--accent:#2A66FF; background:var(--surf,var(--surf,#fff)); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:20px; padding:26px; transition:transform .3s, box-shadow .3s, border-color .3s;" style-hover="transform:translateY(-6px); box-shadow:0 24px 50px rgba(15,28,26,0.12); border-color:color-mix(in srgb, var(--accent,#2A66FF) 40%, transparent);">
+        <div style="width:46px; height:46px; border-radius:13px; background:color-mix(in srgb, var(--accent,#2A66FF) 14%, var(--surf,var(--surf,#fff))); display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent,#2A66FF)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="4"/><path d="m5.6 5.6 2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
+        </div>
+        <h3 style="font-family:'Space Grotesk'; font-weight:700; font-size:20px; margin:0 0 8px; letter-spacing:-0.01em;">Automatización de procesos</h3>
+        <p style="color:var(--mut,#5C6B67); font-size:14.5px; line-height:1.55; margin:0 0 16px;">Eliminamos lo repetitivo y conectamos todos tus sistemas.</p>
+        <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px;">
+          <li style="display:flex; gap:9px; font-size:14px; color:var(--mut2,#36433f); font-weight:600;"><span style="color:var(--accent,#2A66FF);">▹</span> Adiós a las tareas manuales</li>
+          <li style="display:flex; gap:9px; font-size:14px; color:var(--mut2,#36433f); font-weight:600;"><span style="color:var(--accent,#2A66FF);">▹</span> Integración entre sistemas</li>
+          <li style="display:flex; gap:9px; font-size:14px; color:var(--mut2,#36433f); font-weight:600;"><span style="color:var(--accent,#2A66FF);">▹</span> Automatización financiera y DIAN</li>
+          <li style="display:flex; gap:9px; font-size:14px; color:var(--mut2,#36433f); font-weight:600;"><span style="color:var(--accent,#2A66FF);">▹</span> Gestión documental automática</li>
+        </ul>
+      </div>
+
+      <div data-reveal data-delay="240" style="--accent:#F97316; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:20px; padding:26px; transition:transform .3s, box-shadow .3s, border-color .3s;" style-hover="transform:translateY(-6px); box-shadow:0 24px 50px rgba(15,28,26,0.12); border-color:color-mix(in srgb, var(--accent,#2A66FF) 40%, transparent);">
+        <div style="width:46px; height:46px; border-radius:13px; background:color-mix(in srgb, var(--accent,#2A66FF) 14%, var(--surf,#fff)); display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent,#2A66FF)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 8-4 4 4 4M15 8l4 4-4 4"/></svg>
+        </div>
+        <h3 style="font-family:'Space Grotesk'; font-weight:700; font-size:20px; margin:0 0 8px; letter-spacing:-0.01em;">Desarrollo Web & Software</h3>
+        <p style="color:var(--mut,#5C6B67); font-size:14.5px; line-height:1.55; margin:0 0 16px;">Plataformas y productos digitales construidos a la medida de tu operación.</p>
+        <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px;">
+          <li style="display:flex; gap:9px; font-size:14px; color:var(--mut2,#36433f); font-weight:600;"><span style="color:var(--accent,#2A66FF);">▹</span> Páginas corporativas premium</li>
+          <li style="display:flex; gap:9px; font-size:14px; color:var(--mut2,#36433f); font-weight:600;"><span style="color:var(--accent,#2A66FF);">▹</span> Plataformas y CMS</li>
+          <li style="display:flex; gap:9px; font-size:14px; color:var(--mut2,#36433f); font-weight:600;"><span style="color:var(--accent,#2A66FF);">▹</span> Software empresarial</li>
+          <li style="display:flex; gap:9px; font-size:14px; color:var(--mut2,#36433f); font-weight:600;"><span style="color:var(--accent,#2A66FF);">▹</span> Desarrollo 100% personalizado</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== INTEGRACIONES ===================== -->
+  <section style="max-width:1200px; margin:0 auto; padding:30px 24px 10px;">
+    <p data-reveal style="text-align:center; font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--accent,#2A66FF); margin:0 0 6px;">SIN FRICCIÓN</p>
+    <h2 data-reveal data-delay="60" style="text-align:center; font-family:'Space Grotesk'; font-weight:700; font-size:clamp(26px,3.6vw,38px); letter-spacing:-0.025em; margin:0 0 28px;">Se conecta con las herramientas que ya usas</h2>
+    <div style="position:relative; overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent); mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);">
+      <div data-anim="marquee" style="display:flex; width:max-content; animation:marquee 50s linear infinite;">
+        <div style="display:flex; gap:16px; align-items:center; padding-right:16px;">
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/whatsapp/25D366" alt="WhatsApp" style="width:22px;height:22px;display:block;"> WhatsApp</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://api.iconify.design/logos:microsoft-teams.svg" alt="Microsoft Teams" style="width:22px;height:22px;display:block;"> Microsoft Teams</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://api.iconify.design/vscode-icons:file-type-outlook.svg" alt="Outlook" style="width:22px;height:22px;display:block;"> Outlook</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/hubspot/FF7A59" alt="HubSpot" style="width:22px;height:22px;display:block;"> HubSpot</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://api.iconify.design/logos:slack-icon.svg" alt="Slack" style="width:22px;height:22px;display:block;"> Slack</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/googlecalendar/4285F4" alt="Google Calendar" style="width:22px;height:22px;display:block;"> Google Calendar</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/notion/000000" alt="Notion" style="width:22px;height:22px;display:block;"> Notion</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://api.iconify.design/logos:google-drive.svg" alt="Google Drive" style="width:22px;height:22px;display:block;"> Google Drive</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/telegram/26A5E4" alt="Telegram" style="width:22px;height:22px;display:block;"> Telegram</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/trello/0052CC" alt="Trello" style="width:22px;height:22px;display:block;"> Trello</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/googlesheets/34A853" alt="Google Sheets" style="width:22px;height:22px;display:block;"> Google Sheets</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/asana/F06A6A" alt="Asana" style="width:22px;height:22px;display:block;"> Asana</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/zapier/FF4F00" alt="Zapier" style="width:22px;height:22px;display:block;"> Zapier</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/gmail/EA4335" alt="Gmail" style="width:22px;height:22px;display:block;"> Gmail</span>
+        </div>
+        <div style="display:flex; gap:16px; align-items:center; padding-right:16px;">
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/whatsapp/25D366" alt="WhatsApp" style="width:22px;height:22px;display:block;"> WhatsApp</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://api.iconify.design/logos:microsoft-teams.svg" alt="Microsoft Teams" style="width:22px;height:22px;display:block;"> Microsoft Teams</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://api.iconify.design/vscode-icons:file-type-outlook.svg" alt="Outlook" style="width:22px;height:22px;display:block;"> Outlook</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/hubspot/FF7A59" alt="HubSpot" style="width:22px;height:22px;display:block;"> HubSpot</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://api.iconify.design/logos:slack-icon.svg" alt="Slack" style="width:22px;height:22px;display:block;"> Slack</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/googlecalendar/4285F4" alt="Google Calendar" style="width:22px;height:22px;display:block;"> Google Calendar</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/notion/000000" alt="Notion" style="width:22px;height:22px;display:block;"> Notion</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://api.iconify.design/logos:google-drive.svg" alt="Google Drive" style="width:22px;height:22px;display:block;"> Google Drive</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/telegram/26A5E4" alt="Telegram" style="width:22px;height:22px;display:block;"> Telegram</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/trello/0052CC" alt="Trello" style="width:22px;height:22px;display:block;"> Trello</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/googlesheets/34A853" alt="Google Sheets" style="width:22px;height:22px;display:block;"> Google Sheets</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/asana/F06A6A" alt="Asana" style="width:22px;height:22px;display:block;"> Asana</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/zapier/FF4F00" alt="Zapier" style="width:22px;height:22px;display:block;"> Zapier</span>
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="https://cdn.simpleicons.org/gmail/EA4335" alt="Gmail" style="width:22px;height:22px;display:block;"> Gmail</span>
+        </div>
+      </div>
+    </div>
+      <div style="text-align:center; margin-top:24px;">
+      <button onClick="{{ toggleApps }}" style="display:inline-flex; align-items:center; gap:9px; background:var(--surf,#fff); color:var(--accent,#2A66FF); border:1px solid var(--bd2,rgba(15,28,26,0.14)); cursor:pointer; font-weight:700; font-size:14px; padding:11px 22px; border-radius:999px; letter-spacing:0.02em; transition:transform .2s, border-color .2s;" style-hover="transform:translateY(-2px); border-color:var(--accent,#2A66FF);">{{ appsLabel }}<span style="display:inline-block; font-size:10px; transition:transform .3s; transform: {{ chevRot }};">▼</span></button>
+    </div>
+    <div ref="{{ setAppsEl }}" style="overflow:hidden; height:0; opacity:0; transition:height .5s cubic-bezier(.4,0,.2,1), opacity .4s ease;">
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px; padding-top:26px;">
+        <sc-for list="{{ apps }}" as="app" hint-placeholder-count="14">
+          <span style="display:inline-flex; align-items:center; gap:10px; white-space:nowrap; padding:12px 20px; background:var(--surf,#fff); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:14px; box-shadow:0 6px 16px rgba(15,28,26,0.05); font-weight:700; font-size:15px; color:var(--mut2,#36433f);"><img src="{{ app.icon }}" alt="{{ app.name }}" style="width:22px;height:22px;display:block;"> {{ app.name }}</span>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== STATS ===================== -->
+  <section style="background:#0F1C1A; color:#fff; margin-top:30px; position:relative; overflow:hidden;">
+    <div data-anim="blob" style="position:absolute; top:-80px; right:-60px; width:360px; height:360px; background:color-mix(in srgb, var(--accent,#2A66FF) 30%, transparent); filter:blur(80px); animation:blobMove 14s ease-in-out infinite;"></div>
+    <div style="max-width:1200px; margin:0 auto; padding:66px 24px; position:relative; z-index:2;">
+      <div data-reveal style="text-align:center; max-width:620px; margin:0 auto 44px;">
+        <p style="font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--accent,#2A66FF); margin:0;">RESULTADOS</p>
+        <h2 style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(28px,4vw,42px); letter-spacing:-0.025em; margin:14px 0 0;">Impacto medible, no humo</h2>
+      </div>
+      <div data-reveal data-delay="80" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:22px;">
+        <div style="text-align:center; border-right:1px solid rgba(255,255,255,0.09); padding:10px;">
+          <div data-count="1200" data-prefix="+" style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(36px,5vw,52px); letter-spacing:-0.03em; color:#fff;">+0</div>
+          <div style="color:#9fb0ab; font-size:14px; font-weight:600; margin-top:6px;">Horas ahorradas</div>
+        </div>
+        <div style="text-align:center; border-right:1px solid rgba(255,255,255,0.09); padding:10px;">
+          <div data-count="85" data-prefix="+" style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(36px,5vw,52px); letter-spacing:-0.03em; color:#fff;">+0</div>
+          <div style="color:#9fb0ab; font-size:14px; font-weight:600; margin-top:6px;">Automatizaciones</div>
+        </div>
+        <div style="text-align:center; border-right:1px solid rgba(255,255,255,0.09); padding:10px;">
+          <div data-count="70" data-suffix="%" style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(36px,5vw,52px); letter-spacing:-0.03em; color:var(--accent,#2A66FF);">0%</div>
+          <div style="color:#9fb0ab; font-size:14px; font-weight:600; margin-top:6px;">Menos trabajo manual</div>
+        </div>
+        <div style="text-align:center; border-right:1px solid rgba(255,255,255,0.09); padding:10px;">
+          <div style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(36px,5vw,52px); letter-spacing:-0.03em; color:#fff;">24/7</div>
+          <div style="color:#9fb0ab; font-size:14px; font-weight:600; margin-top:6px;">Procesos activos</div>
+        </div>
+        <div style="text-align:center; padding:10px;">
+          <div data-count="98" data-suffix="%" style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(36px,5vw,52px); letter-spacing:-0.03em; color:var(--accent,#2A66FF);">0%</div>
+          <div style="color:#9fb0ab; font-size:14px; font-weight:600; margin-top:6px;">Clientes satisfechos</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROCESO ===================== -->
+  <section id="proceso" style="max-width:1200px; margin:0 auto; padding:72px 24px;">
+    <div data-reveal style="max-width:640px;">
+      <p style="font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--accent,#2A66FF); margin:0;">CÓMO TRABAJAMOS</p>
+      <h2 style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(30px,4.2vw,46px); letter-spacing:-0.025em; line-height:1.08; margin:14px 0 0;">De la idea a la operación</h2>
+      <p style="font-size:18px; color:var(--mut,#5C6B67); line-height:1.6; margin:16px 0 0; font-weight:500;">Un proceso claro y conectado, de principio a fin. Cada etapa alimenta la siguiente.</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:20px; margin-top:42px;">
+      <div data-reveal data-delay="0" style="position:relative; padding:28px 22px; background:var(--surf,var(--surf,#fff)); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:18px;">
+        <div style="font-family:'Space Grotesk'; font-weight:700; font-size:44px; color:color-mix(in srgb, var(--accent,#2A66FF) 26%, var(--surf,var(--surf,#fff))); line-height:1;">01</div>
+        <h3 style="font-family:'Space Grotesk'; font-weight:700; font-size:19px; margin:14px 0 8px;">Diagnóstico</h3>
+        <p style="color:var(--mut,#5C6B67); font-size:14.5px; line-height:1.55; margin:0;">Analizamos tu operación, detectamos cuellos de botella y priorizamos qué automatizar primero.</p>
+      </div>
+      <div data-reveal data-delay="90" style="position:relative; padding:28px 22px; background:var(--surf,var(--surf,#fff)); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:18px;">
+        <div style="font-family:'Space Grotesk'; font-weight:700; font-size:44px; color:color-mix(in srgb, var(--accent,#2A66FF) 26%, var(--surf,var(--surf,#fff))); line-height:1;">02</div>
+        <h3 style="font-family:'Space Grotesk'; font-weight:700; font-size:19px; margin:14px 0 8px;">Diseño</h3>
+        <p style="color:var(--mut,#5C6B67); font-size:14.5px; line-height:1.55; margin:0;">Definimos el flujo, la arquitectura y la experiencia a la medida de tu negocio.</p>
+      </div>
+      <div data-reveal data-delay="180" style="position:relative; padding:28px 22px; background:var(--surf,var(--surf,#fff)); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:18px;">
+        <div style="font-family:'Space Grotesk'; font-weight:700; font-size:44px; color:color-mix(in srgb, var(--accent,#2A66FF) 26%, var(--surf,var(--surf,#fff))); line-height:1;">03</div>
+        <h3 style="font-family:'Space Grotesk'; font-weight:700; font-size:19px; margin:14px 0 8px;">Automatización</h3>
+        <p style="color:var(--mut,#5C6B67); font-size:14.5px; line-height:1.55; margin:0;">Construimos, integramos y ponemos en marcha la solución con IA y automatización.</p>
+      </div>
+      <div data-reveal data-delay="270" style="position:relative; padding:28px 22px; background:var(--surf,var(--surf,#fff)); border:1px solid var(--bd,rgba(15,28,26,0.08)); border-radius:18px;">
+        <div style="font-family:'Space Grotesk'; font-weight:700; font-size:44px; color:color-mix(in srgb, var(--accent,#2A66FF) 26%, var(--surf,var(--surf,#fff))); line-height:1;">04</div>
+        <h3 style="font-family:'Space Grotesk'; font-weight:700; font-size:19px; margin:14px 0 8px;">Soporte</h3>
+        <p style="color:var(--mut,#5C6B67); font-size:14.5px; line-height:1.55; margin:0;">Monitoreamos, optimizamos y escalamos contigo de forma continua.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EQUIPO IA ===================== -->
+  <section style="background:#0F1C1A; color:#fff; position:relative; overflow:hidden;">
+    <div data-anim="blob" style="position:absolute; top:-60px; left:50%; transform:translateX(-50%); width:560px; height:320px; max-width:90vw; background:radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--accent,#2A66FF) 30%, transparent), transparent 70%); filter:blur(46px); animation:blobMove 14s ease-in-out infinite;"></div>
+    <div style="max-width:1200px; margin:0 auto; padding:72px 24px 84px; position:relative; z-index:2;">
+      <div data-reveal style="text-align:center; max-width:660px; margin:0 auto 16px;">
+        <p style="font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--accent,#2A66FF); margin:0 0 12px;">TU EQUIPO DIGITAL</p>
+        <h2 style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(30px,4.4vw,50px); letter-spacing:-0.03em; line-height:1.05; margin:0;">Construye tu Equipo de IA Ideal</h2>
+      </div>
+      <div style="height:34px;"></div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:18px;">
+        <sc-for list="{{ agents }}" as="item" hint-placeholder-count="8">
+          <div data-reveal style="position:relative; background:linear-gradient(180deg,#17251f,#101a17); border:1px solid rgba(255,255,255,0.08); border-radius:20px; padding:24px 20px; overflow:hidden; display:flex; flex-direction:column; transition:transform .3s, border-color .3s, box-shadow .3s;" style-hover="transform:translateY(-6px); border-color:color-mix(in srgb, var(--accent,#2A66FF) 50%, transparent); box-shadow:0 24px 50px rgba(0,0,0,0.42);">
+            <div style="position:absolute; top:-46px; left:50%; transform:translateX(-50%); width:210px; height:130px; background:radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--accent,#2A66FF) 28%, transparent), transparent 70%); pointer-events:none;"></div>
+            <h3 style="position:relative; z-index:2; text-align:center; font-family:'Space Grotesk'; font-weight:700; font-size:16px; color:var(--accent,#2A66FF); margin:0 0 20px; min-height:42px; display:flex; align-items:center; justify-content:center;">{{ item.name }}</h3>
+            <div style="position:relative; z-index:2; height:192px; margin:8px -6px -12px; display:flex; align-items:flex-end; justify-content:center;">
+              <div style="position:absolute; top:6px; left:50%; transform:translateX(-50%); width:160px; height:160px; border-radius:50%; background:radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--accent,#2A66FF) 48%, transparent), color-mix(in srgb, var(--accent,#2A66FF) 15%, transparent) 56%, transparent 72%); box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--accent,#2A66FF) 32%, transparent);"></div>
+              <div style="position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:140px; height:18px; border-radius:50%; background:radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.35), transparent 70%); filter:blur(4px);"></div>
+              <img src="{{ item.img }}" alt="{{ item.name }}" style="position:relative; z-index:1; height:228px; width:auto; max-width:118%; object-fit:contain; object-position:bottom; filter:drop-shadow(0 16px 24px rgba(0,0,0,0.5)); -webkit-mask-image:linear-gradient(to bottom, #000 58%, transparent 90%); mask-image:linear-gradient(to bottom, #000 58%, transparent 90%);">
+            </div>
+            <sc-if value="{{ item.notCustom }}" hint-placeholder-val="{{ true }}">
+              <ul style="list-style:none; margin:24px 0 18px; padding:0; display:flex; flex-direction:column; gap:10px; position:relative; z-index:2;">
+                <sc-for list="{{ item.bullets }}" as="b" hint-placeholder-count="4">
+                  <li style="display:flex; align-items:center; gap:9px; font-size:13.5px; color:#cdd8d4; font-weight:600;"><span style="width:18px; height:18px; border-radius:50%; background:color-mix(in srgb, var(--accent,#2A66FF) 22%, transparent); color:var(--accent,#2A66FF); display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0;">✓</span> {{ b }}</li>
+                </sc-for>
+              </ul>
+            </sc-if>
+            <sc-if value="{{ item.custom }}" hint-placeholder-val="{{ false }}">
+              <p style="position:relative; z-index:2; text-align:center; font-size:13.5px; line-height:1.55; color:#9fb0ab; margin:24px 0 18px; font-weight:500;">{{ item.desc }}</p>
+            </sc-if>
+            <a href="Contacto.dc.html" style="position:relative; z-index:2; margin-top:auto; text-align:center; display:block; background:transparent; color:#fff; text-decoration:none; font-weight:700; font-size:14px; padding:12px; border-radius:999px; border:1px solid rgba(255,255,255,0.18); letter-spacing:0.02em; transition:background .25s, border-color .25s, transform .25s, box-shadow .25s;" style-hover="background:var(--accent,#2A66FF); border-color:var(--accent,#2A66FF); transform:translateY(-3px); box-shadow:0 12px 26px color-mix(in srgb, var(--accent,#2A66FF) 48%, transparent);">Contratar Ahora</a>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ALCANCE ===================== -->
+  <section id="alcance" style="max-width:1200px; margin:0 auto; padding:40px 24px 72px; display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:48px; align-items:center;">
+    <div data-reveal>
+      <p style="font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--accent,#2A66FF); margin:0;">ALCANCE GLOBAL</p>
+      <h2 style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(30px,4.2vw,46px); letter-spacing:-0.025em; line-height:1.08; margin:14px 0 0;">Desde Medellín<br>para el mundo</h2>
+      <p style="font-size:18px; color:var(--mut,#5C6B67); line-height:1.6; margin:18px 0 0; font-weight:500; max-width:46ch;">Operamos desde el corazón tecnológico de Colombia y conectamos a empresas en cualquier parte del planeta. La distancia ya no es una barrera.</p>
+      <div style="display:inline-flex; align-items:center; gap:10px; margin-top:24px; padding:10px 16px; background:var(--surf,var(--surf,#fff)); border:1px solid var(--bd2,rgba(15,28,26,0.14)); border-radius:12px; font-weight:700; font-size:14px;">
+        <span style="width:9px; height:9px; border-radius:50%; background:var(--accent,#2A66FF); box-shadow:0 0 0 4px color-mix(in srgb, var(--accent,#2A66FF) 22%, transparent);"></span>
+        Medellín, Colombia
+      </div>
+    </div>
+    <div data-reveal data-delay="120" style="position:relative; aspect-ratio:1/1; max-width:420px; margin:0 auto; width:100%; display:flex; align-items:center; justify-content:center;">
+      <div style="position:absolute; width:90%; aspect-ratio:1/1; border-radius:50%; box-shadow:0 0 70px 8px color-mix(in srgb, var(--accent,#2A66FF) 36%, transparent);"></div>
+      <div style="position:relative; width:86%; aspect-ratio:1/1; border-radius:50%; overflow:hidden; box-shadow:inset 14px -12px 34px rgba(0,0,0,0.6), inset -10px 10px 26px rgba(255,255,255,0.14), 0 18px 40px rgba(0,0,0,0.35);">
+        <img src="https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg" alt="Globo terráqueo" style="position:absolute; width:300%; max-width:none; height:auto; left:-37.5%; top:-20%; display:block;">
+        <div style="position:absolute; inset:0; border-radius:50%; background:radial-gradient(circle at 33% 28%, rgba(255,255,255,0.30), transparent 48%);"></div>
+        <div style="position:absolute; inset:0; border-radius:50%; background:radial-gradient(circle at 50% 50%, transparent 55%, rgba(0,4,18,0.55) 100%);"></div>
+      </div>
+      <div style="position:absolute; z-index:5; width:16px; height:16px;">
+        <span data-anim="ring" style="position:absolute; inset:0; border-radius:50%; background:#ff5a3c; animation:ringPulse 2.4s ease-out infinite;"></span>
+        <span style="position:absolute; inset:3px; border-radius:50%; background:#ff5a3c; border:2px solid #fff; box-shadow:0 0 12px rgba(255,90,60,0.95); z-index:2;"></span>
+        <span style="position:absolute; top:22px; left:50%; transform:translateX(-50%); background:#0F1C1A; color:#fff; font-weight:700; font-size:12px; letter-spacing:.01em; padding:5px 12px; border-radius:999px; white-space:nowrap; box-shadow:0 6px 18px rgba(0,0,0,0.35);">Medellín</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section style="max-width:820px; margin:0 auto; padding:20px 24px 72px;">
+    <div data-reveal style="text-align:center; margin-bottom:34px;">
+      <p style="font-size:13px; font-weight:700; letter-spacing:.14em; color:var(--accent,#2A66FF); margin:0;">PREGUNTAS FRECUENTES</p>
+      <h2 style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(28px,4vw,42px); letter-spacing:-0.025em; margin:14px 0 0;">Tienes dudas, tenemos respuestas</h2>
+    </div>
+    <div data-reveal data-delay="80">
+      <sc-for list="{{ faqs }}" as="item" hint-placeholder-count="5">
+        <div style="border-bottom:1px solid var(--bd2,rgba(15,28,26,0.14));">
+          <button onClick="{{ item.toggle }}" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:22px 4px; background:none; border:none; cursor:pointer; text-align:left;">
+            <span style="font-family:'Space Grotesk'; font-weight:600; font-size:17.5px; color:var(--tx,#0F1C1A);">{{ item.question }}</span>
+            <span style="flex-shrink:0; width:30px; height:30px; border-radius:9px; background:color-mix(in srgb, var(--accent,#2A66FF) 12%, var(--surf,var(--surf,#fff))); color:var(--accent,#2A66FF); display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:600; transition:transform .3s ease; transform: {{ item.rot }};">+</span>
+          </button>
+          <div style="overflow:hidden; transition:max-height .4s ease; max-height: {{ item.maxH }};">
+            <p style="color:var(--mut,#5C6B67); font-size:15.5px; line-height:1.65; margin:0; padding:0 4px 22px; max-width:64ch; font-weight:500;">{{ item.answer }}</p>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ===================== CTA FINAL ===================== -->
+  <section style="max-width:1200px; margin:0 auto; padding:0 24px 80px;">
+    <div data-reveal style="position:relative; overflow:hidden; background:#0F1C1A; border-radius:28px; padding:clamp(40px,6vw,72px); text-align:center;">
+      <div data-anim="blob" style="position:absolute; top:-100px; left:-40px; width:380px; height:380px; background:color-mix(in srgb, var(--accent,#2A66FF) 34%, transparent); filter:blur(80px); animation:blobMove 13s ease-in-out infinite;"></div>
+      <div data-anim="blob" style="position:absolute; bottom:-120px; right:-30px; width:340px; height:340px; background:color-mix(in srgb, var(--accent,#2A66FF) 22%, transparent); filter:blur(90px); animation:blobMove 16s ease-in-out infinite 1s;"></div>
+      <div style="position:relative; z-index:2;">
+        <h2 style="font-family:'Space Grotesk'; font-weight:700; font-size:clamp(30px,4.6vw,52px); letter-spacing:-0.03em; line-height:1.06; color:#fff; margin:0 auto; max-width:18ch;">Transformemos juntos cómo trabaja tu empresa</h2>
+        <p style="font-size:18px; color:#a7b6b1; line-height:1.6; margin:18px auto 0; max-width:50ch; font-weight:500;">Una conversación de 30 minutos puede cambiar la forma en que opera tu negocio.</p>
+        <a href="https://wa.me/573000000000" style="display:inline-flex; align-items:center; gap:9px; margin-top:30px; background:var(--accent,#2A66FF); color:#fff; text-decoration:none; font-weight:700; font-size:16px; padding:16px 30px; border-radius:999px; letter-spacing:0.02em; box-shadow:inset 0 1px 0 rgba(255,255,255,0.28), 0 16px 40px color-mix(in srgb, var(--accent,#2A66FF) 44%, transparent); transition:transform .2s, filter .2s;" style-hover="transform:translateY(-2px); filter:brightness(1.06);">Agenda una reunión →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer style="background:#0a1412; color:#cdd8d4;">
+    <div style="max-width:1200px; margin:0 auto; padding:56px 24px 30px; display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:36px;">
+      <div style="max-width:280px;">
+        <div style="display:flex; align-items:center; gap:11px; margin-bottom:14px;">
+          <img src="assets/autic-isotipo.png" alt="Autic" style="width:30px;height:30px;object-fit:contain;display:block;filter:brightness(0) invert(1);">
+          <span style="font-family:'Space Grotesk'; font-weight:700; font-size:20px; color:#fff;">Autic</span>
+        </div>
+        <p style="font-size:14px; line-height:1.6; color:#8c9c97; margin:0;">Automatización inteligente. Construimos el futuro digital de tu empresa.</p>
+      </div>
+      <div>
+        <p style="font-size:12px; font-weight:700; letter-spacing:.12em; color:#6b7c77; margin:0 0 14px;">ENLACES</p>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14px;">
+          <a href="Inicio.dc.html" style="color:#cdd8d4; text-decoration:none;">Inicio</a>
+          <a href="Servicios.dc.html" style="color:#cdd8d4; text-decoration:none;">Servicios</a>
+          <a href="Contacto.dc.html" style="color:#cdd8d4; text-decoration:none;">Contacto</a>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:12px; font-weight:700; letter-spacing:.12em; color:#6b7c77; margin:0 0 14px;">CONTACTO</p>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14px;">
+          <a href="mailto:contacto@autic.com.co" style="color:#cdd8d4; text-decoration:none;">contacto@autic.com.co</a>
+          <a href="https://wa.me/573000000000" style="color:#cdd8d4; text-decoration:none;">WhatsApp</a>
+          <span style="color:#8c9c97;">Medellín, Colombia</span>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:12px; font-weight:700; letter-spacing:.12em; color:#6b7c77; margin:0 0 14px;">EMPECEMOS</p>
+        <a href="https://wa.me/573000000000" style="display:inline-flex; align-items:center; gap:8px; background:var(--accent,#2A66FF); color:#fff; text-decoration:none; font-weight:700; font-size:14px; padding:12px 22px; border-radius:999px; letter-spacing:0.02em;">Agenda una reunión</a>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="max-width:1200px; margin:0 auto; padding:20px 24px; font-size:13px; color:#6b7c77;">© {{ year }} Autic. Todos los derechos reservados. Hecho con tecnología, en Medellín.</div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;heroVariant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;a&quot;,&quot;b&quot;],&quot;default&quot;:&quot;a&quot;,&quot;tsType&quot;:&quot;\&quot;a\&quot;|\&quot;b\&quot;&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:[&quot;#2A66FF&quot;,&quot;#7c5cff&quot;,&quot;#3b82f6&quot;,&quot;#ff7847&quot;,&quot;#c8ff4d&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Marca&quot;},&quot;reduceMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Movimiento&quot;}}">
+class Component extends DCLogic {
+  state = { openFaq: 0, showApps: false, dark: (typeof localStorage !== 'undefined' && localStorage.getItem('autic-theme') === 'dark') };
+  setAppsEl = (el) => { if (el) this.appsEl = el; };
+  animateApps(open) {
+    const el = this.appsEl;
+    if (!el) return;
+    clearTimeout(this._appsT);
+    if (open) {
+      el.style.opacity = '1';
+      el.style.height = el.scrollHeight + 'px';
+      this._appsT = setTimeout(() => { if (this.state.showApps && this.appsEl) this.appsEl.style.height = 'auto'; }, 540);
+    } else {
+      el.style.height = el.scrollHeight + 'px';
+      el.getBoundingClientRect();
+      requestAnimationFrame(() => { el.style.height = '0px'; el.style.opacity = '0'; });
+    }
+  }
+  toggleApps = () => this.setState((s) => ({ showApps: !s.showApps }), () => this.animateApps(this.state.showApps));
+
+  applyTheme() {
+    try { document.documentElement.setAttribute('data-theme', this.state.dark ? 'dark' : 'light'); } catch (e) {}
+  }
+  toggleTheme = () => {
+    this.setState((s) => ({ dark: !s.dark }), () => {
+      this.applyTheme();
+      try { localStorage.setItem('autic-theme', this.state.dark ? 'dark' : 'light'); } catch (e) {}
+    });
+  };
+
+  setRoot = (el) => { if (el) { this.root = el; this.applyAccent(); } };
+
+  accentColor() {
+    const a = this.props.accent;
+    if (Array.isArray(a)) return a[0] || '#2A66FF';
+    return a || '#2A66FF';
+  }
+
+  applyAccent() {
+    if (this.root) this.root.style.setProperty('--accent', this.accentColor());
+  }
+
+  componentDidMount() {
+    this.applyAccent();
+    this.applyTheme();
+    try { this.initMotion(); } catch (e) { this.revealAll(); }
+  }
+
+  componentDidUpdate(prev) {
+    this.applyAccent();
+    if (prev && prev.heroVariant !== this.props.heroVariant) {
+      try { this.initMotion(); } catch (e) { this.revealAll(); }
+    }
+  }
+
+  revealAll() {
+    if (!this.root) return;
+    this.root.querySelectorAll('[data-reveal]').forEach((el) => {
+      el.style.opacity = '1'; el.style.transform = 'none';
+    });
+  }
+
+  fmt(el, v) {
+    const pre = el.dataset.prefix || '';
+    const suf = el.dataset.suffix || '';
+    return pre + Math.round(v).toLocaleString('es-CO') + suf;
+  }
+
+  animateCount(el) {
+    const target = parseFloat(el.dataset.count);
+    const dur = 1500;
+    const start = performance.now();
+    const step = (now) => {
+      const p = Math.min(1, (now - start) / dur);
+      const e = 1 - Math.pow(1 - p, 3);
+      el.textContent = this.fmt(el, target * e);
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  initMotion() {
+    const root = this.root;
+    if (!root) return;
+    const reduce = !!this.props.reduceMotion;
+
+    const reveals = root.querySelectorAll('[data-reveal]');
+
+    if (reduce) {
+      reveals.forEach((el) => { el.style.opacity = '1'; el.style.transform = 'none'; });
+      root.querySelectorAll('[data-anim]').forEach((el) => { el.style.animation = 'none'; });
+      root.querySelectorAll('[data-count]').forEach((el) => { el.textContent = this.fmt(el, parseFloat(el.dataset.count)); });
+      return;
+    }
+
+    // Set initial hidden state then observe
+    reveals.forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(26px)';
+      el.style.transition = 'opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1)';
+    });
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          const el = e.target;
+          const d = parseInt(el.dataset.delay || '0', 10);
+          el.style.transitionDelay = d + 'ms';
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    reveals.forEach((el) => io.observe(el));
+
+    const counters = root.querySelectorAll('[data-count]');
+    const cio = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { this.animateCount(e.target); cio.unobserve(e.target); }
+      });
+    }, { threshold: 0.4 });
+    counters.forEach((el) => cio.observe(el));
+
+    const hero = root.querySelector('[data-hero]');
+    if (hero) {
+      hero.addEventListener('mousemove', (ev) => {
+        const r = hero.getBoundingClientRect();
+        const x = (ev.clientX - r.left) / r.width - 0.5;
+        const y = (ev.clientY - r.top) / r.height - 0.5;
+        hero.querySelectorAll('[data-par]').forEach((el) => {
+          const f = parseFloat(el.dataset.par);
+          el.style.transform = 'translate(' + (x * f) + 'px,' + (y * f) + 'px)';
+        });
+      });
+    }
+
+    clearTimeout(this._safe);
+    this._safe = setTimeout(() => this.revealAll(), 2400);
+  }
+
+  renderVals() {
+    const accent = this.accentColor();
+    const variant = this.props.heroVariant || 'a';
+    const data = [
+      { question: '¿Qué tan rápido podemos ver resultados?', answer: 'En la mayoría de proyectos lanzamos una primera automatización en 2 a 4 semanas. Empezamos por el proceso de mayor impacto para que veas retorno cuanto antes.' },
+      { question: '¿Se integra con las herramientas que ya uso?', answer: 'Sí. Conectamos con tu CRM, WhatsApp, sistemas contables, DIAN y prácticamente cualquier API. La idea es sumar a tu operación, no reemplazarla.' },
+      { question: '¿Necesito conocimientos técnicos?', answer: 'No. Nosotros nos encargamos del diseño, la construcción y el mantenimiento. Tú te concentras en tu negocio mientras la automatización trabaja.' },
+      { question: '¿Trabajan con empresas fuera de Colombia?', answer: 'Operamos desde Medellín para el mundo. Atendemos clientes en cualquier zona horaria de forma remota, con comunicación clara y continua.' },
+      { question: '¿Qué pasa después de lanzar?', answer: 'Monitoreamos, optimizamos y escalamos contigo. El soporte continuo está incluido: tu solución mejora con el tiempo en lugar de quedar obsoleta.' },
+    ];
+    const faqs = data.map((f, i) => {
+      const open = this.state.openFaq === i;
+      return {
+        question: f.question,
+        answer: f.answer,
+        open: open,
+        rot: open ? 'rotate(45deg)' : 'rotate(0deg)',
+        maxH: open ? '320px' : '0px',
+        toggle: () => this.setState((s) => ({ openFaq: s.openFaq === i ? -1 : i })),
+      };
+    });
+    const agents = [
+      { name: 'Soporte al Cliente de IA', img: 'assets/agent-soporte.png', bullets: ['Resuelve problemas', 'Responde preguntas frecuentes', 'Soluciona incidencias', 'Conecta con humanos'] },
+      { name: 'Evaluador de Candidatos de IA', img: 'assets/agent-evaluador.png', bullets: ['Filtra candidatos', 'Hace preguntas estructuradas', 'Identifica talento calificado', 'Actualiza el ATS'] },
+      { name: 'Seguimiento de Ventas de IA', img: 'assets/agent-ventas.png', bullets: ['Envía seguimientos', 'Nutre prospectos', 'Reactiva leads', 'Actualiza el CRM'] },
+    ].map((a) => ({ name: a.name, img: a.img, bullets: a.bullets || [], desc: a.desc || '', custom: !!a.custom, notCustom: !a.custom }));
+    return {
+      accent: accent,
+      heroA: variant === 'a',
+      heroB: variant === 'b',
+      faqs: faqs,
+      agents: agents,
+      year: 2026,
+      setRoot: this.setRoot,
+      dark: this.state.dark,
+      notDark: !this.state.dark,
+      toggleTheme: this.toggleTheme,
+      apps: [
+        ['WhatsApp', 'https://cdn.simpleicons.org/whatsapp/25D366'],
+        ['Microsoft Teams', 'https://api.iconify.design/logos:microsoft-teams.svg'],
+        ['Outlook', 'https://api.iconify.design/vscode-icons:file-type-outlook.svg'],
+        ['HubSpot', 'https://cdn.simpleicons.org/hubspot/FF7A59'],
+        ['Slack', 'https://api.iconify.design/logos:slack-icon.svg'],
+        ['Google Calendar', 'https://cdn.simpleicons.org/googlecalendar/4285F4'],
+        ['Notion', 'https://cdn.simpleicons.org/notion/000000'],
+        ['Google Drive', 'https://api.iconify.design/logos:google-drive.svg'],
+        ['Telegram', 'https://cdn.simpleicons.org/telegram/26A5E4'],
+        ['Trello', 'https://cdn.simpleicons.org/trello/0052CC'],
+        ['Google Sheets', 'https://cdn.simpleicons.org/googlesheets/34A853'],
+        ['Asana', 'https://cdn.simpleicons.org/asana/F06A6A'],
+        ['Zapier', 'https://cdn.simpleicons.org/zapier/FF4F00'],
+        ['Gmail', 'https://cdn.simpleicons.org/gmail/EA4335'],
+      ].map((a) => ({ name: a[0], icon: a[1] })),
+      showApps: this.state.showApps,
+      toggleApps: this.toggleApps,
+      setAppsEl: this.setAppsEl,
+      appsLabel: this.state.showApps ? 'Ver menos' : 'Ver todas las apps',
+      chevRot: this.state.showApps ? 'rotate(180deg)' : 'rotate(0deg)',
+    };
+  }
+}
+</script>
+</body>
+</html>
